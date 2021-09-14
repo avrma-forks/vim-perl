@@ -1,0 +1,77 @@
+PERL						*perl.vim* *ft-perl-syntax*
+
+There are a number of possible options to the perl syntax highlighting.
+
+Inline POD highlighting is now turned on by default.  If you don't wish
+to have the added complexity of highlighting POD embedded within Perl
+files, you may set the 'perl_include_pod' option to 0: >
+
+	:let perl_include_pod = 0
+
+To reduce the complexity of parsing (and increase performance) you can switch
+off two elements in the parsing of variable names and contents. >
+
+To handle package references in variable and function names not differently
+from the rest of the name (like 'PkgName::' in '$PkgName::VarName'): >
+
+	:let perl_no_scope_in_variables = 1
+
+(In Vim 6.x it was the other way around: "perl_want_scope_in_variables"
+enabled it.)
+
+If you do not want complex things like '@{${"foo"}}' to be parsed: >
+
+	:let perl_no_extended_vars = 1
+
+(In Vim 6.x it was the other way around: "perl_extended_vars" enabled it.)
+
+The coloring strings can be changed.  By default strings and qq friends will be
+highlighted like the first line.  If you set the variable
+perl_string_as_statement, it will be highlighted as in the second line.
+
+   "hello world!"; qq|hello world|;
+   ^^^^^^^^^^^^^^NN^^^^^^^^^^^^^^^N	  (unlet perl_string_as_statement)
+   S^^^^^^^^^^^^SNNSSS^^^^^^^^^^^SN	  (let perl_string_as_statement)
+
+(^ = perlString, S = perlStatement, N = None at all)
+
+The syncing has 3 options.  The first two switch off some triggering of
+synchronization and should only be needed in case it fails to work properly.
+If while scrolling all of a sudden the whole screen changes color completely
+then you should try and switch off one of those.  Let me know if you can figure
+out the line that causes the mistake.
+
+One triggers on "^\s*sub\s*" and the other on "^[$@%]" more or less. >
+
+	:let perl_no_sync_on_sub
+	:let perl_no_sync_on_global_var
+
+Below you can set the maximum distance VIM should look for starting points for
+its attempts in syntax highlighting. >
+
+	:let perl_sync_dist = 100
+
+If you want to use folding with perl, set perl_fold: >
+
+	:let perl_fold = 1
+
+If you want to fold blocks in if statements, etc. as well set the following: >
+
+	:let perl_fold_blocks = 1
+
+Subroutines are folded by default if 'perl_fold' is set.  If you do not want
+this, you can set 'perl_nofold_subs': >
+
+	:let perl_nofold_subs = 1
+
+Anonymous subroutines are not folded by default; you may enable their folding
+via 'perl_fold_anonymous_subs': >
+
+	:let perl_fold_anonymous_subs = 1
+
+Packages are also folded by default if 'perl_fold' is set.  To disable this
+behavior, set 'perl_nofold_packages': >
+
+	:let perl_nofold_packages = 1
+
+vim:tw=78:sw=8:sts=8:ts=8:noet:ft=help:norl:
